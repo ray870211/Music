@@ -140,7 +140,7 @@ export default {
   methods: {
     //因為跟store/user.js的register重名，所以用中括號可以有別名功能
     ...mapActions(useUserStore, {
-      //映射到tore/user.js register
+      //映射到tore/user.js register function
       createUser: "register",
     }),
     async register(values) {
@@ -156,12 +156,12 @@ export default {
         this.reg_in_submission = false;
         this.reg_alert_variant = "bg-red-500";
         this.reg_alert_msg = " 註冊失敗 再試一次";
-        console.log(error);
         return;
       }
 
       this.reg_alert_variant = "bg-green-500";
       this.reg_alert_msg = "成功送出";
+      window.location.reload();
     },
   },
 };

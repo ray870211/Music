@@ -7,14 +7,30 @@ export default defineStore("user", {
   }),
   actions: {
     async register(values) {
-      await auth.createUserWithEmailAndPassword(values.email, values.password);
-      await usersCollection.add({
+      const userCred = await auth.createUserWithEmailAndPassword(
+        values.email,
+        values.password
+      );
+      //回傳的uid會對應到firebase auth中用戶的uid，在設置到database文件名
+      await usersCollection.doc(userCred.user.uid).set({
         name: values.name,
         email: values.email,
         age: values.age,
         country: values.country,
       });
-      this.useUserStore.userLoggedIn = true;
+
+      await userCred.user.updateProfile({
+        displayName: values.name,
+      });
+      this.userLoggedIn = true;
+    },
+    async authenticate(values) {
+      await auth.signInWithEmailAndPassword(values.email, values.password);
+      this.userLoggedIn = true;
+    },
+    async signOut() {
+      await auth.signOut();
+      this.userLoggedIn = false;
     },
   },
 });

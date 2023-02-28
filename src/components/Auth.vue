@@ -88,6 +88,8 @@ export default {
   computed: {
     ...mapState(useModalStore, ["hiddenClass"]),
     ...mapWritableState(useModalStore, { modalVisibility: "isOpen" }),
+    //將stores/modal的isOpen屬性映射到modalVisibility變數上，而因為是響應式的，狀態變
+    //化就要觸發
   },
   methods: {},
 };
